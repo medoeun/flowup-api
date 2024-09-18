@@ -44,7 +44,7 @@ public class User {
 	private String password;
 
 	@Column(nullable = false, length = 20)
-	private String role; // 예: ADMIN, MEMBER
+	private String role; // ADMIN, MEMBER
 
 	// 중간 테이블 "user_teams"로 팀장, 팀원 역할 및 다중 팀 관리
 	@ManyToMany(fetch = FetchType.LAZY)

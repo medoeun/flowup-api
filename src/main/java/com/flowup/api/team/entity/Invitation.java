@@ -1,6 +1,7 @@
 package com.flowup.api.team.entity;
 
 import com.flowup.api.common.entity.BaseEntity;
+import com.flowup.api.common.enums.InvitationStatus;
 import com.flowup.api.user.entity.User;
 
 import jakarta.persistence.Column;
@@ -38,18 +39,14 @@ public class Invitation extends BaseEntity {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id", nullable = false)
-	private User invitedUser;  // 초대받은 사용자
+	private User invitedUser;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "inviter_user_id", nullable = false)
-	private User inviter;  // 초대한 팀장
+	private User inviter;
 
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false)
-	private InvitationStatus status;  // 초대 상태 (예: PENDING, ACCEPTED, REJECTED)
+	private InvitationStatus status;  // 초대 상태 (PENDING, ACCEPTED, REJECTED)
 
-	// Enum 따로 빼서 관리
-	public enum InvitationStatus {
-		PENDING, ACCEPTED, REJECTED
-	}
 }

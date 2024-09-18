@@ -1,10 +1,13 @@
 package com.flowup.api.team.entity;
 
 import com.flowup.api.common.entity.BaseEntity;
+import com.flowup.api.common.enums.TeamRole;
 import com.flowup.api.user.entity.User;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -38,7 +41,8 @@ public class TeamMember extends BaseEntity {
 	@JoinColumn(name = "team_id", nullable = false)
 	private Team team;
 
+	@Enumerated(EnumType.STRING)
 	@Column(nullable = false)
-	private String teamRole;  // 팀 내에서의 역할 (LEADER, MEMBER)
+	private TeamRole teamRole;  // 팀 내 역할 (LEADER, MEMBER)
 }
 

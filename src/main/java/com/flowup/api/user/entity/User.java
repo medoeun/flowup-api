@@ -2,11 +2,13 @@ package com.flowup.api.user.entity;
 
 import java.util.Set;
 
+import com.flowup.api.common.enums.Authority;
 import com.flowup.api.team.entity.Team;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -14,9 +16,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import lombok.AccessLevel;
@@ -43,8 +42,9 @@ public class User {
 	@Column(nullable = false)
 	private String password;
 
+	@Enumerated(EnumType.STRING)
 	@Column(nullable = false, length = 20)
-	private String role; // ADMIN, MEMBER
+	private Authority authority; // ADMIN, MEMBER
 
 	// 중간 테이블 "user_teams"로 팀장, 팀원 역할 및 다중 팀 관리
 	@ManyToMany(fetch = FetchType.LAZY)

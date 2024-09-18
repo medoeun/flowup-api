@@ -50,7 +50,7 @@ public class User {
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(
 		name = "user_teams",
-		joinColumns = @JoinColumn(name="user_id"),
+		joinColumns = @JoinColumn(name="user_id"), // user_id로 join
 		inverseJoinColumns = @JoinColumn(name="team_id"),
 		uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "team_id"})
 	)

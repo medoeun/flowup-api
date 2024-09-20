@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -18,14 +19,22 @@ import org.springframework.beans.factory.annotation.Value;
 import lombok.RequiredArgsConstructor;
 
 @Service
-@RequiredArgsConstructor
 public class RefreshTokenService {
 
-	@Value("${jwt.refresh-token-expiration-ms}")
 	private final Long refreshTokenExpirationMs;
-
 	private final RefreshTokenRepository refreshTokenRepository;
 	private final UserRepository userRepository;
+
+	@Autowired
+	public RefreshTokenService(
+		@Value("${jwt.refresh-expiration}") Long refreshTokenExpirationMs,
+		RefreshTokenRepository refreshTokenRepository,
+		UserRepository userRepository
+	) {
+		this.refreshTokenExpirationMs = refreshTokenExpirationMs;
+		this.refreshTokenRepository = refreshTokenRepository;
+		this.userRepository = userRepository;
+	}
 
 	public Optional<RefreshToken> findByToken(String token) {
 		return refreshTokenRepository.findByToken(token);

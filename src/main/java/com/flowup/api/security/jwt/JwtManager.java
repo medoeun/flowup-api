@@ -23,14 +23,16 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Component
 public class JwtManager {
+
 	private final Key secretKey;
+	private final long tokenValidityInseconds;
 
-	@Value("${jwt.token-validity-in-seconds}")
-	private long tokenValidityInseconds;
-
-	public JwtManager(@Value("${jwt.secret}") String secret) {
+	public JwtManager(
+		@Value("${jwt.secret}") String secret,
+		@Value("${jwt.token-validity-in-seconds}") long tokenValidityInseconds) {
 		byte[] keyBytes = Base64.getDecoder().decode(secret);
 		this.secretKey = new SecretKeySpec(keyBytes, SignatureAlgorithm.HS256.getJcaName());
+		this.tokenValidityInseconds = tokenValidityInseconds;
 	}
 
 	// JWT 토큰 생성
@@ -88,6 +90,7 @@ public class JwtManager {
 			return false;
 		} catch (JwtException | IllegalArgumentException e) {
 			log.info("Invalid JWT token: {}", token);
+			log.info("Exception message: {}", e.getMessage());
 			return false;
 		}
 	}

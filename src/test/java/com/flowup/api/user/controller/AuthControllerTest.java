@@ -4,25 +4,31 @@ import org.junit.jupiter.api.Test;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
 
 import com.flowup.api.common.enums.Authority;
+import com.flowup.api.security.config.SecurityConfig;
+import com.flowup.api.security.config.TestSecurityConfig;
 import com.flowup.api.security.entity.RefreshToken;
 import com.flowup.api.security.jwt.CustomUserDetails;
 import com.flowup.api.security.jwt.CustomUserDetailsService;
@@ -30,8 +36,8 @@ import com.flowup.api.security.jwt.JwtManager;
 import com.flowup.api.security.service.RefreshTokenService;
 import com.flowup.api.user.entity.User;
 
-@SpringBootTest
-@AutoConfigureMockMvc
+@WebMvcTest(AuthController.class)
+@Import(TestSecurityConfig.class)
 public class AuthControllerTest {
 
 	@Autowired
@@ -58,7 +64,7 @@ public class AuthControllerTest {
 	}
 
 	// 로그인 성공 시 Ok Status 리턴
-	@Test
+	@Test  // 모의 인증 사용자 설정
 	public void testLogin() throws Exception {
 		// given
 		String username = "testuser";
@@ -98,7 +104,7 @@ public class AuthControllerTest {
 	}
 
 	// 리프레시 토큰이 유효할 시 새로운 액세스 토큰 반환
-	@Test
+	@Test  // 모의 인증 사용자 설정
 	public void testRefreshToken() throws Exception {
 		// given
 		String refreshToken = "test-refresh-token";

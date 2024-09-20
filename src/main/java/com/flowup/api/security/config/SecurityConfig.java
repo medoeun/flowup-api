@@ -44,7 +44,7 @@ public class SecurityConfig {
 					"/api-docs/**",
 					"/webjars/**"
 				).permitAll()  // Swagger UI 관련 경로에 인증 없이 접근 허용
-				.requestMatchers("/api/login/**").permitAll() // 인증 없이 접근할 수 있는 경로 설정
+				.requestMatchers("/api/auth/**").permitAll() // 인증 없이 접근할 수 있는 경로 설정
 				.requestMatchers(HttpMethod.POST, "/api/members").permitAll()
 				.anyRequest().authenticated() // 그 외의 모든 요청 인증 필요
 			)

@@ -1,5 +1,6 @@
 package com.flowup.api.security.jwt;
 
+import org.springframework.context.annotation.Primary;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -16,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
+@Primary
 public class CustomUserDetailsService implements UserDetailsService {
 	private final UserRepository userRepository;
 

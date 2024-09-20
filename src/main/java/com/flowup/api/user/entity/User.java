@@ -46,7 +46,7 @@ public class User {
 
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false, length = 20)
-	private Authority authority; // ADMIN, MEMBER
+	private Authority authority; // ADMIN, USER
 
 	@OneToMany(mappedBy = "user")
 	private Set<TeamMember> teamMembers;  // User와 TeamMember 간의 관계

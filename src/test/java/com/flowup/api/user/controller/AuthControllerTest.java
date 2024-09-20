@@ -10,6 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -19,9 +20,11 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 import com.flowup.api.common.enums.Authority;
 import com.flowup.api.security.entity.RefreshToken;
+import com.flowup.api.security.jwt.CustomUserDetails;
 import com.flowup.api.security.jwt.CustomUserDetailsService;
 import com.flowup.api.security.jwt.JwtManager;
 import com.flowup.api.security.service.RefreshTokenService;
@@ -54,6 +57,7 @@ public class AuthControllerTest {
 		MockitoAnnotations.openMocks(this);
 	}
 
+	// 로그인 성공 시 Ok Status 리턴
 	@Test
 	public void testLogin() throws Exception {
 		// given
@@ -92,7 +96,8 @@ public class AuthControllerTest {
 				.content("{\"username\":\"testuser\", \"password\":\"password\"}")) // 요청 본문에 JSON 형태의 사용자 자격 증명 포함
 			.andExpect(status().isOk());
 	}
-/*
+
+	// 리프레시 토큰이 유효할 시 새로운 액세스 토큰 반환
 	@Test
 	public void testRefreshToken() throws Exception {
 		// given
@@ -103,7 +108,7 @@ public class AuthControllerTest {
 			.id(1L)
 			.username("testuser")
 			.password("password")
-			.authority(Authority.ROLE_MEMBER)
+			.authority(Authority.USER)
 			.build();
 
 		RefreshToken validRefreshToken = RefreshToken.builder()
@@ -124,7 +129,7 @@ public class AuthControllerTest {
 				.contentType(MediaType.APPLICATION_JSON)
 				.content("{\"refreshToken\":\"test-refresh-token\"}"))
 			.andExpect(status().isOk());
-	}*/
+	}
 
 }
 

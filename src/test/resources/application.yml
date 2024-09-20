@@ -8,3 +8,13 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: create-drop
+
+springdoc:
+  default-consumes-media-type: application/json
+  default-produces-media-type: application/json
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: method

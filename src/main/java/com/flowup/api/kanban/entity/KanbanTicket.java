@@ -3,10 +3,13 @@ package com.flowup.api.kanban.entity;
 import java.time.LocalDate;
 
 import com.flowup.api.common.entity.BaseEntity;
+import com.flowup.api.common.enums.Tag;
 import com.flowup.api.user.entity.User;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -36,8 +39,9 @@ public class KanbanTicket extends BaseEntity {
 	@Column
 	private String description;
 
+	@Enumerated(EnumType.STRING)
 	@Column
-	private String tag;  // 티켓 태그 (Backend, Frontend 등)
+	private Tag tag;  // 티켓 태그 (Backend, Frontend 등 고정값)
 
 	@Column
 	private Double workload;  // 작업량 (Optional, 시간(H) 단위)

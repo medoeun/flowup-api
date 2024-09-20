@@ -9,6 +9,12 @@ spring:
     hibernate:
       ddl-auto: create-drop
 
+jwt:
+  secret: NGM2dmtVcVltd0lwN0xJdG5kS29tc2lVaDJUNDd6V20=  # 테스트 환경에서 사용할 임시 시크릿 키
+  token-validity-in-seconds: 3600  # 토큰 유효 시간 (예: 1시간)
+  refresh-expiration: ${JWT_REFRESH_EXPIRATION:604800}  # 환경 변수가 없을 경우 기본값 7일 (604800초)
+
+
 springdoc:
   default-consumes-media-type: application/json
   default-produces-media-type: application/json

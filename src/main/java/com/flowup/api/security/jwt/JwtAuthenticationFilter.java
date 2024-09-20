@@ -40,10 +40,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 			// 토큰이 유효한 경우에만 인증 처리
 			if (token != null && jwtManager.isValidToken(token)) {
-				Long userId = jwtManager.getUserId(token);
+				String username = jwtManager.getUsername(token);
 
 				// UserDetailsService를 통해 UserDetails를 로드
-				var userDetails = userDetailsService.loadUserByUsername(userId.toString());
+				var userDetails = userDetailsService.loadUserByUsername(username);
 
 				// Authentication 생성 및 설정
 				Authentication authentication = jwtManager.getAuthentication(token, userDetails);

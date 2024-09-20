@@ -36,10 +36,10 @@ public class JwtManager {
 	// JWT 토큰 생성
 	public String generateToken(Authentication authentication) {
 		CustomUserDetails userDetails = (CustomUserDetails)authentication.getPrincipal();
-		Long id = userDetails.getMemberId();
+		String username = userDetails.getUsername();
 
 		// JWT 토큰에 최소한의 정보(페이로드)만 포함
-		Claims claims = Jwts.claims().setSubject(String.valueOf(id));
+		Claims claims = Jwts.claims().setSubject(username);
 
 		Date now = new Date();
 		Date validity = new Date(now.getTime() + tokenValidityInseconds * 1000);
@@ -66,13 +66,13 @@ public class JwtManager {
 			userDetails, null, userDetails.getAuthorities());
 	}
 
-	public Long getUserId(String token) {
-		return Long.parseLong(Jwts.parserBuilder()
+	public String getUsername(String token) {
+		return Jwts.parserBuilder()
 			.setSigningKey(secretKey)
 			.build()
 			.parseClaimsJws(token)
 			.getBody()
-			.getSubject());
+			.getSubject();
 	}
 
 	// JWT 토큰 유효성 검증

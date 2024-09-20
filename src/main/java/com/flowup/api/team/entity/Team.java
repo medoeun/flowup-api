@@ -11,6 +11,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -33,6 +34,6 @@ public class Team extends BaseEntity {
 	@Column(nullable = false, unique = true, length = 100)
 	private String name;
 
-	@ManyToMany(mappedBy = "teams")
-	private Set<User> members;
+	@OneToMany(mappedBy = "team")
+	private Set<TeamMember> teamMembers;
 }

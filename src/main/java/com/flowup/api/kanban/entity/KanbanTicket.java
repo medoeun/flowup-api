@@ -1,11 +1,10 @@
 package com.flowup.api.kanban.entity;
 
-import java.util.Set;
+import java.time.LocalDate;
 
 import com.flowup.api.common.entity.BaseEntity;
-import com.flowup.api.team.entity.Team;
+import com.flowup.api.user.entity.User;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -14,7 +13,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,23 +24,35 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder
-public class KanbanColumn extends BaseEntity {
+public class KanbanTicket extends BaseEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
-
-	// InProgress, Review 등의 컬럼 이름
-	@Column(nullable = false)
-	private String name;
+	private Long id;
 
 	@Column(nullable = false)
-	private Integer order;  // 칸반 보드에서의 순서
+	private String title;
+
+	@Column
+	private String description;
+
+	@Column
+	private String tag;  // 티켓 태그 (Backend, Frontend 등)
+
+	@Column
+	private Double workload;  // 작업량 (Optional, 시간(H) 단위)
+
+	@Column
+	private LocalDate dueDate;  // 작업 기한 (일자만 설정)
+
+	@Column(nullable = false)
+	private Integer order;  // 티켓의 순서 (각 칸반 컬럼 내에서의 위치)
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "team_id", nullable = false)
-	private Team team;
+	@JoinColumn(name = "column_id", nullable = false)
+	private KanbanColumn column;  // 티켓이 속한 칸반 컬럼
 
-	@OneToMany(mappedBy = "column", cascade = CascadeType.ALL, orphanRemoval = true)
-	private Set<KanbanTicket> kanbanTickets;  // 각 칸반 컬럼 내에 있는 티켓들
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "assignee_id")
+	private User assignee;  // 티켓 담당자 (Optional)
 }
